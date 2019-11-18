@@ -20,6 +20,10 @@ app.get("*", (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('a user has connected');
+    socket.on('room', room => {
+        socket.join(room)
+        console.log("room name: "+room)
+    })
 });
 
 server.listen(PORT, () => {

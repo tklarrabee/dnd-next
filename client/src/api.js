@@ -1,8 +1,11 @@
 import openSocket from 'socket.io-client';
 const  socket = openSocket('http://localhost:3001');
 
-function subscribeToEncounter (interval, name, password) {
-    socket.on('connect', console.log('Hopefully not a waste.'));
+const subscribeToEncounter = (interval, name, password, room) => {
+    socket.on('connect', () => {
+        socket.emit('room', 'room')
+    });
+    // socket.join('some room').emit(console.log('some event'));
 }
 
 export { subscribeToEncounter }
