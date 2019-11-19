@@ -29,16 +29,15 @@ const createEncounter = () => {
 }
 
 const joinGame = room => {
-    socket.emit('room', room)
+    socket.emit('player join', room)
 }
-
 
 
 const addChar = character => {
     socket.emit('add character', character)
 }
 
-socket.on('broadcast', message => {
+socket.on('player join', message => {
     console.log(message);
 })
 

@@ -32,13 +32,12 @@ io.on('connection', (socket) => {
         socket.join(room)
         socket.emit('broadcast', 'Some Asshole Joined')
         // console.log("user joined room: "+room)
-
     });
 
-    socket.on('add character', character => {
-        console.log(character)
-        socket.in(character.room).emit('broadcast', 'broadcasting because character added')
-        console.log('broadcasting to room: '+ character.room)
+    socket.on('player join', player => {
+        console.log(player)
+        socket.broadcast.in(player.room).emit('player join', 'broadcasting because character added')
+        console.log('broadcasting to room: '+ player.room)
     });
 
     socket.on('play', play => {

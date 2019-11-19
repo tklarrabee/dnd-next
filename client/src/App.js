@@ -36,7 +36,7 @@ class App extends Component {
   handleJoin(event) {
     event.preventDefault();
     console.log("Join Room: "+ this.state.roomJoin)
-    joinGame(this.state.roomJoin)
+    joinGame( {room: this.state.roomJoin })
   }
 
 
