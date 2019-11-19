@@ -7,6 +7,9 @@ const io = require('socket.io')(server);
 const PORT = process.env.PORT || 3001;
 
 
+
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -19,15 +22,34 @@ app.get("*", (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user has connected');
+    // 
+    console.log('a user has connected. ID: '+socket.id);
+
+    
+    
     socket.on('room', room => {
+        console.log("Room Created: " + room)
         socket.join(room)
-        console.log("user joined room: "+room)
+        socket.emit('broadcast', 'Some Asshole Joined')
+        // console.log("user joined room: "+room)
+
+    });
+
+    socket.on('add character', character => {
+        console.log(character)
+        socket.in(character.room).emit('broadcast', 'broadcasting because character added')
+        console.log('broadcasting to room: '+ character.room)
+    });
+
+    socket.on('play', play => {
+        console.log('custom emit works')
     });
 
     socket.on('disconnect', (socket) => {
         console.log('a user has disconnected')
     });
+
+
 });
 
 

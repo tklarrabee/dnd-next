@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createEncounter } from './api';
+import { createEncounter, joinGame } from './api';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -12,12 +12,14 @@ class App extends Component {
     super(props)
     this.state = {
       room: "",
+      roomJoin: "",
       name: null,
       gm: false,
       player: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this. handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.handleJoin = this.handleJoin.bind(this)
     // this.componentDidMount = this.componentDidMount.bind(this)
   }
 
@@ -31,11 +33,17 @@ class App extends Component {
     console.log(this.state.room)
   }
 
+  handleJoin(event) {
+    event.preventDefault();
+    console.log("Join Room: "+ this.state.roomJoin)
+    joinGame(this.state.roomJoin)
+  }
+
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("SUBMIT, MORTAL: "+this.state.room)
-    createEncounter(this.state.room)
+    console.log("Room State: "+this.state.room)
+    createEncounter()
   }
 
   render() {
@@ -71,6 +79,22 @@ class App extends Component {
               type="submit"
           >
             Create
+          </Button>
+          <Form.Control
+              className="form-input"
+              type='text'
+              id="roomJoin"
+              name="roomJoin"
+              placeholder="Room Id"
+              value={this.state.roomJoin}
+              onChange={this.handleChange}
+            />
+          <Button
+              variant="dark"
+              onClick={this.handleJoin}
+              type="submit"
+          >
+            Join
           </Button>
           </Form>
         </header>
