@@ -22,9 +22,15 @@ io.on('connection', (socket) => {
     console.log('a user has connected');
     socket.on('room', room => {
         socket.join(room)
-        console.log("room name: "+room)
-    })
+        console.log("user joined room: "+room)
+    });
+
+    socket.on('disconnect', (socket) => {
+        console.log('a user has disconnected')
+    });
 });
+
+
 
 server.listen(PORT, () => {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
