@@ -25,12 +25,22 @@ io.on('connection', (socket) => {
     // 
     console.log('a user has connected. ID: '+socket.id);
 
+    const gameData = {
+        player: "",
+        id: "",
+        room: "",
+        gm: false,
+        characters: []
+    }
+
     
     
-    socket.on('room', room => {
-        console.log("Room Created: " + room)
-        socket.join(room)
-        socket.emit('broadcast', 'Some Asshole Joined')
+    socket.on('create game', game => {
+        console.log("Room Created: " + game.room)
+        socket.join(socket.id)
+        socket.emit('broadcast', 'Game Created')
+        gameData.room = game.room
+        gameData.id = socket.id
         // console.log("user joined room: "+room)
     });
 

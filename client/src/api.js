@@ -19,7 +19,7 @@ const socket = io('http://localhost:3001');
 
 const createEncounter = () => {
 
-    socket.emit('room', socket.id)
+    socket.emit('create game', socket.id)
 
     console.log(socket.id)
 
