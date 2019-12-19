@@ -20,7 +20,7 @@ dnd initiative tracker using react and socket.io
 *Create Character Screen*
 > Player name
 > Character name
-> Set to notify creator by default
+> Creator claims their character unless it is an NPC which is claimed by the GM. only one user can claim a character at a time
 
 
 *Real Time Updates*
@@ -35,3 +35,5 @@ dnd initiative tracker using react and socket.io
 > Update initiative roll to change order
 > Clear NPCs, end encounter
 > in encounter T/F
+> Any number of DM's is ok, switch between DM and Player
+> Update
