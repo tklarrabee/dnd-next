@@ -21,6 +21,16 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
+// ============= Database =================
+
+var models = require('./models')
+
+models.sequelize.sync({ force: false }).then(function () {
+  console.log(`\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷\n●○▷ Database is Online! ●○▷\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷`)
+}).catch(function (err) {
+  console.log(err, 'Something went wrong with the Database Update!')
+})
+
 io.on('connection', (socket) => {
     // 
     console.log('a user has connected. ID: '+socket.id);
@@ -70,6 +80,6 @@ io.on('connection', (socket) => {
 
 
 
-server.listen(PORT, () => {
-    console.log(`🌎 ==> API server now on port ${PORT}!`);
+server.listen(PORT, err => {
+    if (!err) {console.log(`🌎 ==> API server now on port ${PORT}!`);}
 });

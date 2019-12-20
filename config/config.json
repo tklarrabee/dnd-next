@@ -2,7 +2,7 @@
     "development": {
       "username": "root",
       "password": "root",
-      "database": "rapid_logger_db",
+      "database": "dnd_next",
       "host": "localhost",
       "port": 3306,
       "dialect": "mysql"
