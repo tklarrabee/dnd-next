@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize) => {
     }
 
     Game.associate = models => {
-      Game.hasMany(modesl.Character, {
+      Game.hasMany(models.Character, {
         onDelete: 'cascade'
       })
     }

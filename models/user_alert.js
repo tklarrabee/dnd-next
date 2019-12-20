@@ -3,10 +3,10 @@ module.exports = function (sequelize, Sequelize) {
         id: {
             autoIncrement: true,
             primaryKey: true,
-            type: DataTypes.INTEGER
+            type: Sequelize.INTEGER
         }
     })
-    
+
     user_alert.associate = function (models) {
         user_alert.belongsTo(models.User, {
             foreignKey: {
@@ -16,7 +16,7 @@ module.exports = function (sequelize, Sequelize) {
     }
 
     user_alert.associate = function (models) {
-        user_alert.hasMany(models.user_alert, {
+        user_alert.belongsTo(models.Character, {
             foreignKey: {
                 allowNull: false
             }
