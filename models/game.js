@@ -1,41 +1,30 @@
-module.exports = function (sequelize, Sequelize) {
-    var User = sequelize.define('game', {
+module.exports = (sequelize, Sequelize) => {
+    var Game = sequelize.define('game', {
   
       id: {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-  
-      game_id: {
+      // status values roll, pause, stop, and play
+      status: {
         type: Sequelize.STRING,
-        notEmpty: true
-      },
-  
-      lastname: {
-        type: Sequelize.STRING,
-        notEmpty: true
-      },
-  
-      email: {
-        type: Sequelize.STRING,
-        validate: {
-          isEmail: true
-        }
-      },
-  
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
+        default: 'inactive'
       }
     })
   
-    User.associate = function (models) {
-      User.hasMany(models.Tasks, {
+    Game.associate = models => {
+      Game.hasMany(models.User, {
+        onDelete: 'cascade'
+      })
+    }
+
+    Game.associate = models => {
+      Game.hasMany(modesl.Character, {
         onDelete: 'cascade'
       })
     }
   
-    return User
+    return Game
   }
   

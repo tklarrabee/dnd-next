@@ -15,13 +15,39 @@ dnd initiative tracker using react and socket.io
 > Both can then add character details: pc or npc, name, claimed or unclaimed (Characters created by default are claimed by user) 
 > Character has an array field with ids of players. This will determine if they are tracking the character
 
+*Game Model*
+> Game is just an Id to associate with games and users
+> String to change state between active game and encounter setup.
+> status values: roll, pause, stop, and play
+> roll: bring up modal to update initiative rolls
+> play: Starts timer, sorts characters
+> stop: clear initiative rolls, bring users back to create edit characters screen.
+> pause: stops the timer, does not clear initiative
+> Order: order will be assigned based on initiative and then change based on being moved up or down
 
+*User Model*
+> When a player enters with a new session Id they will be prompted to add a player name.
+> Each time a user joins a set of alert records is generated for each character created.
 
-*Create Character Screen*
-> Player name
+*Character Model*
+> Player enters a character name and player name (client will default to selected name)
+> Database creates user_alert record for each user
+> NPC true or false for removing NPCs after encounter
+
+*User Alert Model*
+> track character boolean field.
+
+*Create Character Screen Pre-Encounter*
+> Player name (Default Name Entered)
 > Character name
-> Creator claims their character unless it is an NPC which is claimed by the GM. only one user can claim a character at a time
 
+*Routes*
+> Create Game
+> Add Player
+> Add character
+> Start Game
+> End Encounter, remove NPCs
+> Remove character, remove NPCs
 
 *Real Time Updates*
 > Create a room for each game
@@ -57,6 +83,19 @@ Express-Session
 > When an end user joins a game, server will check game for related user record.
 > Existing users will have their player name populated and previous notifications 
 
+Client State:
+> Current Turn field 
+> Each characer component will have an associated boolean value for current turn and character Id value
+> State will include an array of character Ids you are following.
+> Component will toggle visuals when it's your character's turn. 
+> Roll for initiative will bring up a modal asking for initiative values for all tracked characters
+> Add character, change order of started game by switching to paused. 
+
+Modals:
+> New Player
+> New Character
+> Roll of Initiative: Show all tracked characters or all characters and enter rolls for all of them at once.
+> Edit character and player name
 
 TODD
 1. Build model for game and character.
