@@ -17,11 +17,12 @@ const socket = io('http://localhost:3001');
 // socket.emit('play', {[socket.id]: room.id, password: true})
 // socket.join('some room').emit(console.log('some event'));
 
-const createEncounter = () => {
+const createGame = game => {
 
+    // Need to make an API call to add the Game to mysql, on success emit 
     socket.emit('create game', socket.id)
 
-    console.log(socket.id)
+    console.log(game)
 
     // addChar({ player: socket.id, character: 'succ hole', playerName: 'Tony Pastrami', room: socket.id })
 
@@ -29,6 +30,7 @@ const createEncounter = () => {
 }
 
 const joinGame = room => {
+    socket.join(room);
     socket.emit('player join', room)
 }
 
@@ -52,4 +54,4 @@ socket.on('player join', message => {
 // Create Unclaimed PC
 // Visual to show when it is player turn
 
-export { createEncounter, addChar, joinGame }
+export { createGame, addChar, joinGame }

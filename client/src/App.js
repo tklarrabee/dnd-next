@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createEncounter, joinGame } from './api';
+import { createGame, joinGame } from './api';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -33,17 +33,19 @@ class App extends Component {
     console.log(this.state.room)
   }
 
+  // Handle join needs to retrieve all
   handleJoin(event) {
     event.preventDefault();
     console.log("Join Room: "+ this.state.roomJoin)
     joinGame( {room: this.state.roomJoin })
   }
 
-
+  // Needs a constructor to pass
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("Room State: "+this.state.room)
-    createEncounter()
+    // createGame(game)
+    createGame()
   }
 
   render() {
