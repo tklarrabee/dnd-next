@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const path = require("path");
-const server = require('http').createServer(app)
+const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const game = require('./routes/game');
 const PORT = process.env.PORT || 3001;
 
 
@@ -23,31 +24,25 @@ app.get("*", (req, res) => {
 
 // ============= Database =================
 
-var models = require('./models')
+const models = require('./models')
+
+// Require API routes
+require('./routes/game')(app)
 
 models.sequelize.sync({ force: false }).then(function () {
-  console.log(`\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷\n●○▷ Database is Online! ●○▷\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷`)
+    console.log(`\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷\n●○▷ Database is Online! ●○▷\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷`)
 }).catch(function (err) {
-  console.log(err, 'Something went wrong with the Database Update!')
-})
+    console.log(err, 'Something went wrong with the Database Update!')
+});
 
 io.on('connection', (socket) => {
     // 
-    console.log('a user has connected. ID: '+socket.id);
-
-
-    const gameData = {
-        player: "",
-        id: "",
-        room: "",
-        gm: false,
-        characters: []
-    }
+    console.log('a user has connected. ID: ' + socket.id);
 
     // Socket 'create game' will create a room named after game id from mysql.
     // emits creating game/game created
     // socket.on create game needs to grab a session Id from express-session
-    
+
     socket.on('create game', game => {
         console.log("Room Created: " + game)
         socket.join(game)
@@ -60,7 +55,7 @@ io.on('connection', (socket) => {
     socket.on('player join', player => {
         console.log(player)
         socket.broadcast.in(player.room).emit('player join', 'broadcasting because character added')
-        console.log('broadcasting to room: '+ player.room)
+        console.log('broadcasting to room: ' + player.room)
     });
 
     // This will be the start of an encounter, 
@@ -81,5 +76,5 @@ io.on('connection', (socket) => {
 
 
 server.listen(PORT, err => {
-    if (!err) {console.log(`🌎 ==> API server now on port ${PORT}!`);}
+    if (!err) { console.log(`🌎 ==> API server now on port ${PORT}!`); }
 });

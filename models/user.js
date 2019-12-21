@@ -4,6 +4,14 @@ module.exports = function (sequelize, Sequelize) {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER
+        },
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        session: {
+            type: Sequelize.STRING,
+            allowNull: false
         }
     })
     

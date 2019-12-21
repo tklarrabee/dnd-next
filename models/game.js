@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
       // status values roll, pause, stop, and play
       status: {
         type: Sequelize.STRING,
-        default: 'inactive'
+        default: 'stop'
       }
     })
   
