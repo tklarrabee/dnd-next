@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createGame, joinGame } from './api';
+import { createGame, joinGame, session } from './api';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -23,9 +23,10 @@ class App extends Component {
     // this.componentDidMount = this.componentDidMount.bind(this)
   }
 
-  // componentDidMount() {
-  //   subscribeToEncounter()
-  // }
+  componentDidMount() {
+    session()
+  }
+  
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value

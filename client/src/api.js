@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import axios from 'axios'
 const socket = io('http://localhost:3001');
 
 // 1.
@@ -29,6 +30,12 @@ const createGame = game => {
 
 }
 
+const session = () => {
+    axios.get('/user').then(res => {
+        console.log("Session Id =====> ", res.data)
+    })
+}
+
 const joinGame = room => {
     socket.join(room);
     socket.emit('player join', room)
@@ -54,4 +61,4 @@ socket.on('player join', message => {
 // Create Unclaimed PC
 // Visual to show when it is player turn
 
-export { createGame, addChar, joinGame }
+export { createGame, addChar, joinGame, session }

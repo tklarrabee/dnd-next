@@ -40,7 +40,7 @@ module.exports = app => {
     })
 
 
-    app.post('/user', (req, res) => {
+    app.post('/user', function (req, res) {
         // console.log("verifying user")
         console.log(req.sessionID)
         const { GameId } = req.body
@@ -53,6 +53,10 @@ module.exports = app => {
             res.json(user)
         })
 
+    })
+
+    app.get('/session', (req, res) => {
+        res.json(req.sessionID)
     })
 
 }

@@ -30,18 +30,18 @@ app.use(session({
     saveUninitialized: true,
   })) 
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
-});
-
-
-// ============= Database =================
-
-const models = require('./models')
-
-// Require API routes
-require('./routes/game')(app)
-
+  
+  
+  // ============= Database =================
+  
+  const models = require('./models')
+  
+  // Require API routes
+  require('./routes/game')(app)
+  
+  app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  });
 
 models.sequelize.sync({ force: true }).then(function () {
     console.log(`\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷\n●○▷ Database is Online! ●○▷\n●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷●○▷`)
