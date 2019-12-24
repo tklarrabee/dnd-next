@@ -2,7 +2,7 @@
     "development": {
       "username": "root",
       "password": "root",
-      "database": "dnd_next",
+      "database": "nish_dnd",
       "host": "localhost",
       "port": 3306,
       "dialect": "mysql"

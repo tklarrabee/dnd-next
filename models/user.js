@@ -21,15 +21,17 @@ module.exports = function (sequelize, Sequelize) {
                 allowNull: false
             }
         })
-    }
 
-    User.associate = function (models) {
         User.hasMany(models.user_alert, {
-            foreignKey: {
-                allowNull: false
-            }
+            onDelete: 'cascade'
         })
     }
+
+    // User.associate = function (models) {
+    //     User.hasMany(models.user_alert, {
+    //         onDelete: 'cascade'
+    //     })
+    // }
 
     return User
 }

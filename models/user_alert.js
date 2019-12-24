@@ -13,15 +13,21 @@ module.exports = function (sequelize, Sequelize) {
                 allowNull: false
             }
         })
-    }
 
-    user_alert.associate = function (models) {
         user_alert.belongsTo(models.Character, {
             foreignKey: {
                 allowNull: false
             }
         })
     }
+
+    // user_alert.associate = function (models) {
+    //     user_alert.belongsTo(models.Character, {
+    //         foreignKey: {
+    //             allowNull: false
+    //         }
+    //     })
+    // }
 
 
     return user_alert

@@ -6,11 +6,6 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.INTEGER
         },
 
-        firstname: {
-            type: Sequelize.STRING,
-            notEmpty: true
-        },
-
         initiative: {
             type: Sequelize.INTEGER
         },
@@ -31,16 +26,22 @@ module.exports = function (sequelize, Sequelize) {
                 allowNull: false
             }
         })
-    }
 
-
-    Character.associate = function (models) {
         Character.hasMany(models.user_alert, {
             foreignKey: {
                 allowNull: false
             }
         })
     }
+
+
+    // Character.associate = function (models) {
+    //     Character.hasMany(models.user_alert, {
+    //         foreignKey: {
+    //             allowNull: false
+    //         }
+    //     })
+    // }
 
 
     return Character

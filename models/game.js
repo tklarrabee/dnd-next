@@ -1,30 +1,27 @@
 module.exports = (sequelize, Sequelize) => {
-    var Game = sequelize.define('game', {
-  
-      id: {
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      // status values roll, pause, stop, and play
-      status: {
-        type: Sequelize.STRING,
-        default: 'stop'
-      }
-    })
-  
-    Game.associate = models => {
-      Game.hasMany(models.User, {
-        onDelete: 'cascade'
-      })
-    }
+  var Game = sequelize.define('Game', {
 
-    Game.associate = models => {
-      Game.hasMany(models.Character, {
-        onDelete: 'cascade'
-      })
+    id: {
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    // status values roll, pause, stop, and play
+    status: {
+      type: Sequelize.STRING
     }
-  
-    return Game
+  })
+
+  Game.associate = function (models) {
+    Game.hasMany(models.User, {
+      onDelete: 'cascade'
+    })
+
+    Game.hasMany(models.Character, {
+      onDelete: 'cascade'
+    }) 
   }
-  
+
+
+  return Game
+}

@@ -4,6 +4,7 @@ const Sequelize = require('sequelize')
 const gameModel = require('../models/game')
 const userModel = require('../models/user')
 const alertModel = require('../models/user_alert')
+const characterModel = require('../models/character')
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 
