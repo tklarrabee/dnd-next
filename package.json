@@ -1,7 +1,7 @@
 {
   "name": "dnd-next",
   "version": "1.0.0",
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3001" ,
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",

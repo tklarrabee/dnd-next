@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createGame, joinGame, session } from './api';
 import axios from 'axios';
+import io from 'socket.io-client';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import logo from './logo.svg';
@@ -15,7 +16,8 @@ class App extends Component {
       roomJoin: "",
       name: null,
       gm: false,
-      player: false
+      player: false,
+      endpoint: 'http://localhost:3001',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -24,6 +26,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const { endpoint } = this.state
+    const socket = io(endpoint)
     session()
   }
   
@@ -44,9 +48,10 @@ class App extends Component {
   // Needs a constructor to pass
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Room State: "+this.state.room)
+    console.log("Room State: "+this.state.name)
     // createGame(game)
-    createGame()
+    const game = { name: this.state.name }
+    createGame(game)
   }
 
   render() {
@@ -88,16 +93,16 @@ class App extends Component {
               type='text'
               id="roomJoin"
               name="roomJoin"
-              placeholder="Room Id"
-              value={this.state.roomJoin}
+              placeholder="Player Name"
+              value={this.state.name}
               onChange={this.handleChange}
             />
           <Button
               variant="dark"
-              onClick={this.handleJoin}
+              onClick={this.handleSubmit}
               type="submit"
           >
-            Join
+            Create
           </Button>
           </Form>
         </header>

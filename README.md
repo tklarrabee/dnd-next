@@ -67,6 +67,16 @@ dnd initiative tracker using react and socket.io
 
 
 Socket Utility
+> Socket will put players in a contained room for emitting updates to all connected users
+> Creating game will first make a call to the database to create a game entry
+> On successful write to database, the client will send a create room request to the server.
+> Socket will handle broadcasting
+    >Changes of game state: pause, stop, play, rolling
+    >Characters added
+    >Character updates
+    >Order Updates
+
+
 > Socket 'create game' will create a room named after game id from mysql.
 > Url will include mysql game id
 > You can send the link to people so they can immediately join the game

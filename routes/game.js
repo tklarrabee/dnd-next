@@ -18,23 +18,24 @@ module.exports = app => {
         const { name } = req.body
 
         // This was surprisingly difficult to fix
-        db.Game.create({ status: "stop" }).then((game, err) => {
+        db.Game.create({ status: "stop" }).then((game) => {
             // res.json(game)
             console.log("GAME ID ----> " + game.id)
 
-            if (!err) {
-                db.User.create({ session: req.sessionID, name: name, GameId: game.id }).then((user, err) => {
-                    if (err) res.json(err)
-                    else {
+           
+                db.User.create({ session: req.sessionID, name: name, GameId: game.id }).then((user) => {
+                    
                         const gameAndUser = {
                             user: user,
                             game: game
-                        }
-                        res.json(gameAndUser)
                     }
+                        res.json(gameAndUser)
+                    
+                }).catch(err => {
+                    throw err
                 })
-            }
-            else res.json(err)
+            
+            
         })
 
     })

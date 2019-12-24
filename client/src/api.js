@@ -18,26 +18,32 @@ const socket = io('http://localhost:3001');
 // socket.emit('play', {[socket.id]: room.id, password: true})
 // socket.join('some room').emit(console.log('some event'));
 
-const createGame = game => {
+const createGame = name => {
 
+    console.log(name)
+    axios.post('/game', name).then(res => {
+
+        console.log("Game and User Created", res.data)
+        let gameId = res.data.game.id
+        socket.emit('create game', gameId)
+    })
     // Need to make an API call to add the Game to mysql, on success emit 
-    socket.emit('create game', socket.id)
-
-    console.log(game)
-
     // addChar({ player: socket.id, character: 'succ hole', playerName: 'Tony Pastrami', room: socket.id })
 
 
 }
 
 const session = () => {
-    axios.get('/user').then(res => {
+    console.log("making session call...")
+    axios.get('/session').then(res => {
         console.log("Session Id =====> ", res.data)
+    }).catch(err => {
+        console.log(err)
     })
 }
 
 const joinGame = room => {
-    socket.join(room);
+    // socket.join(room);
     socket.emit('player join', room)
 }
 
