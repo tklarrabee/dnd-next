@@ -1,3 +1,5 @@
+const db = require("../models");
+
 module.exports = io => {
 
     io.on('connection', (socket) => {
@@ -12,7 +14,7 @@ module.exports = io => {
             console.log("Room Created: " + game)
             socket.join(game)
             socket.room = game;
-            socket.emit('broadcast', 'Game Created')
+            io.in(game).emit('game created', 'Successfully created game');
             console.log("user created game: "+ socket.room)
         });
         

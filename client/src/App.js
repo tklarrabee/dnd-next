@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createGame, joinGame, session } from './api';
+import { createGame, joinGame, session, socketEventListener } from './api';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Form from "react-bootstrap/Form";
@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       room: "",
       roomJoin: "",
-      name: null,
+      name: "",
       gm: false,
       player: false,
       endpoint: 'http://localhost:3001',
@@ -22,12 +22,13 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleJoin = this.handleJoin.bind(this)
-    // this.componentDidMount = this.componentDidMount.bind(this)
+    
   }
 
   componentDidMount() {
     const { endpoint } = this.state
     const socket = io(endpoint)
+    socketEventListener(socket)
     session()
   }
   
@@ -35,7 +36,6 @@ class App extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-    console.log(this.state.room)
   }
 
   // Handle join needs to retrieve all
@@ -48,10 +48,10 @@ class App extends Component {
   // Needs a constructor to pass
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Room State: "+this.state.name)
-    // createGame(game)
     const game = { name: this.state.name }
     createGame(game)
+    console.log("Room State: "+this.state.name)
+    // createGame(game)
   }
 
   render() {
@@ -91,8 +91,8 @@ class App extends Component {
           <Form.Control
               className="form-input"
               type='text'
-              id="roomJoin"
-              name="roomJoin"
+              id="name"
+              name="name"
               placeholder="Player Name"
               value={this.state.name}
               onChange={this.handleChange}

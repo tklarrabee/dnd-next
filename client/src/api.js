@@ -52,9 +52,20 @@ const addChar = character => {
     socket.emit('add character', character)
 }
 
-socket.on('player join', message => {
-    console.log(message);
-})
+// =============== Event Listener ==========================
+
+const socketEventListener = socket => {
+    socket.on('player join', message => {
+        console.log(message);
+    })
+
+    socket.on('game created', message => {
+        console.log(message)
+    })
+
+}
+
+
 
 
 // DM features 
@@ -67,4 +78,4 @@ socket.on('player join', message => {
 // Create Unclaimed PC
 // Visual to show when it is player turn
 
-export { createGame, addChar, joinGame, session }
+export { createGame, addChar, joinGame, session, socketEventListener }
