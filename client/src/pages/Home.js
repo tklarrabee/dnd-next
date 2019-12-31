@@ -11,13 +11,13 @@ export default class Home extends Component {
         super(props);
         this.state = {
             name: "",
-            room: "",
             redirectTo: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.createGame = this.createGame.bind(this);
     }
+
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -31,7 +31,7 @@ export default class Home extends Component {
         });
     }
 
-    createGame (name) {
+    createGame(name) {
         // const { endpoint } = this.state
         // const socket = io(endpoint)
 
@@ -58,22 +58,6 @@ export default class Home extends Component {
                             <Form.Control
                                 className="form-input"
                                 type='text'
-                                id="room"
-                                name="room"
-                                placeholder="Session Name"
-                                value={this.state.room}
-                                onChange={this.handleChange}
-                            />
-                            <Button
-                                variant="dark"
-                                onClick={this.handleSubmit}
-                                type="submit"
-                            >
-                                Create
-              </Button>
-                            <Form.Control
-                                className="form-input"
-                                type='text'
                                 id="name"
                                 name="name"
                                 placeholder="Player Name"
@@ -86,7 +70,7 @@ export default class Home extends Component {
                                 type="submit"
                             >
                                 Create
-              </Button>
+                            </Button>
                         </Form>
                     </header>
                 </div>
