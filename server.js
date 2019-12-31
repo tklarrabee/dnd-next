@@ -37,10 +37,10 @@ app.use(session({
   const models = require('./models')
   
   // Require API routes
-  require('./routes/game')(app)
+//   require('./routes/game')(app)
   
   // Socket.io utils
-  require('./socket/utils')(io);
+  require('./socket/utils')(app, io);
 
 
 models.sequelize.sync({ force: true }).then(function () {

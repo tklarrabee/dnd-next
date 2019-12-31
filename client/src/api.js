@@ -1,6 +1,6 @@
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import axios from 'axios'
-const socket = io('http://localhost:3001');
+// const socket = io('http://localhost:3001');
 
 // 1.
 // Player Name
@@ -18,7 +18,7 @@ const socket = io('http://localhost:3001');
 // socket.emit('play', {[socket.id]: room.id, password: true})
 // socket.join('some room').emit(console.log('some event'));
 
-const createGame = name => {
+const createGame = (socket, name) => {
 
     console.log(name)
     axios.post('/game', name).then(res => {
@@ -42,26 +42,38 @@ const session = () => {
     })
 }
 
-const joinGame = room => {
+const joinGame = (socket, room) => {
     // socket.join(room);
     socket.emit('player join', room)
 }
 
 
-const addChar = character => {
+const addChar = (socket, character) => {
+    // { gameId, name, playerName, npc }
     socket.emit('add character', character)
 }
 
-// =============== Event Listener ==========================
 
+// =============== Event Listener ==========================
+// Instantiated on App.js with socket variable above. Seems weird but it works, so...
 const socketEventListener = socket => {
+
+    
     socket.on('player join', message => {
         console.log(message);
     })
 
     socket.on('game created', message => {
-        console.log(message)
+        console.log("Game Created Message: "+ message)
     })
+
+
+
+    
+
+    // socket.on('new character', charList => {
+        
+    // })
 
 }
 
