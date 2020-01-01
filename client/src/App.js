@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import api from './utils/api';
+// import api from './utils/api';
 import Home from './pages/Home'
 import GM from './pages/GM'
-// import axios from 'axios';
-// import io from 'socket.io-client';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      name: "",
       session: ""
     };
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.createGame = this.createGame.bind(this);
-    // this.handleJoin = this.handleJoin.bind(this)
-
+    this.updateName = this.updateName.bind(this)
+    this.updateSession = this.updateSession.bind(this)
   }
 
-  componentDidMount() {
-    api.getSession().then( session => {
-      this.setState({session: session.data})
-      console.log("session id: ", this.state.session)
-    })
-  }
 
+
+  updateName(name) {
+    this.setState({name: name})
+  }
+  
+  updateSession(session) {
+    this.setState({session: session})
+  }
 
   render() {
 
@@ -34,12 +32,20 @@ class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route exact path="/" render={() => <Home 
+            <Route exact path="/" render={(props) => <Home
+            {...props}
+            name={this.state.name}
+            session={this.state.session}
+            updateName={this.updateName}
+            updateSession={this.updateSession}
             />}
             />
             <Route exact path="/:id" render={(props) => <GM 
             {...props}
+            name={this.state.name}
             session={this.state.session}
+            updateName={this.updateName}
+            updateSession={this.updateSession}
             />}
             />
           </Switch>

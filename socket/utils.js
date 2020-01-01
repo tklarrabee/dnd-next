@@ -1,7 +1,34 @@
 const db = require("../models");
 
 module.exports = (app, io) => {
+    
+    const gameState = {
+        countdown: 0,
+        interval: 0,
+        room: "",
+        status: "stop"
+    }
 
+    // if (timer.countdown > 0 && room && status === 'play') {
+        
+    // }
+
+    timerStart = async (countdown, interval, room) => {
+        let promise = new Promise((resolve, reject) => {
+            setTimeout( () => {
+                yourTurn(room, countdown)
+                resolve('resolved')
+            } , countdown)
+        })
+
+        await promise 
+        setTimeout( yourTurn(room, interval), interval)
+    }
+    
+    yourTurn = (room, count) => {
+        io.in(room).emit('timer', {countdown: count}) 
+    }
+    
     app.post('/game', function (req, res) {
         console.log('create game db call', req.sessionID)
         const { name } = req.body
@@ -36,28 +63,18 @@ module.exports = (app, io) => {
         // ================ SOCKET EVENT LISTENERS ===============
         console.log('a user has connected. ID: ' + socket.id);
 
-        // Socket 'create game' will create a room named after game id from mysql.
         // emits creating game/game created
         // socket.on create game needs to grab a session Id from express-session
         // Need a session Id 
 
-        socket.on('create game', game => {
-            // console.log("Room Created: " + game)
-            socket.join(game)
-            socket.room = game;
-            socket.emit('game created', game);
-            console.log("user created game: " + socket.room)
-        });
 
         socket.on('player join', game => {
-            console.log("User joining: " + game.room)
-            socket.join(game.room)
             db.Game.findAll({
                 where: {
                     id: game.room
                 }
-            }).then(game => {
-                if (game.length > 0) {
+            }).then(foundGame => {
+                if (foundGame.length > 0) {
                     db.User.findAll({
                         where: {
                             GameId: game.room,
@@ -65,20 +82,22 @@ module.exports = (app, io) => {
                         }
                     }).then(user => {
                         if (user.length > 0) {
-                            console.log("FUCK YEAH, THIS USER EXISTS", user.length)
+                            socket.join(game.room)
+                            console.log("User joining: " + game.room)
                         }
                         else {
                             db.User.create({ session: game.session, GameId: game.room, name: "Wittle Baby" }).then(user => {
                                 console.log("User Created")
+                                socket.join(game.room)
                             })
                         }
+                        io.in(game.room).emit('player join', 'PLAYER JOINED ROOM, BIOTCH')
                     })
                 }
                 else {
                     socket.emit('no game', 'this game does not exist')
                 }
-            })
-            io.in(game.room).emit('player join', 'PLAYER JOINED ROOM, BIOTCH')
+            }).catch( err => {throw err})
 
             // socket.emit('player join', 'PLAYER JOINED ROOM, BIOTCH')
             // socket.emit('game data', )
@@ -93,8 +112,25 @@ module.exports = (app, io) => {
 
         // This will be the start of an encounter, 
         // figure out serverside and client side timer. 
-        socket.on('play', play => {
-            console.log('custom emit works')
+        socket.on('change', play => {
+            const { status, interval } = play
+            switch(status) {
+                case 'play':
+                    if(interval > 0) {
+                        
+                        setTimeout(setInterval(setInterval(yourTurn(gameState), 1000), countdown), countdown)
+                        setInterval(setInterval(yourTurn(gameState), 1000), interval)
+                        
+                    } else {
+                        console.log("If there is no interval, sort")
+                        socket.emit('start', 'sort and start')
+                    }
+                    break;
+                case 'pause':
+                    if(interval > 0)
+                    break;
+                default: gameState.status = 'stop'
+            }
         });
 
         // socket needs to emit a disconnection notificaiton to group
@@ -112,7 +148,7 @@ module.exports = (app, io) => {
 
         app.get('/character', (req, res) => {
             // console.log("verifying user")
-            console.log(req.sessionID)
+            // console.log(req.sessionID)
             const { GameId } = req.body
             db.User.findAll({
                 where: {

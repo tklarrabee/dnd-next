@@ -107,6 +107,11 @@ Modals:
 > Roll of Initiative: Show all tracked characters or all characters and enter rolls for all of them at once.
 > Edit character and player name
 
+Timer:
+> Client will emit start
+> Server will return current turn id which will be added to state of GM component switching highlights around according to turn.
+
+
 TODD
 1. Build model for game and character.
 2. Create routes for creating game, creating character, deleting character, check for game settings associated with session id, notification for character.

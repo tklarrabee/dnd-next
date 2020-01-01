@@ -18,6 +18,12 @@ export default class Home extends Component {
         this.createGame = this.createGame.bind(this);
     }
 
+    async componentDidMount() {
+        await api.getSession().then( session => {
+          this.props.updateSession(session.data)
+          console.log("session id: ", this.props.session)
+        })
+    }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -38,6 +44,7 @@ export default class Home extends Component {
         api.newGame(name).then(res => {
             console.log("Game and User Created", res.data)
             let gameId = res.data.game.id
+            this.props.updateName(name)
             this.setState({ redirectTo: "/" + gameId })
         })
 
