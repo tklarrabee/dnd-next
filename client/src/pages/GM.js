@@ -57,6 +57,36 @@ export default class GM extends Component {
         }
     }
 
+    sortChar = (key, ascending) => {
+        
+        return function (a, b) {
+
+            // equal items sort equally
+            const varA = a[key]
+            const varB = b[key]
+            
+            if (varA === varB) {
+                return 0;
+            }
+            // nulls sort after anything else
+            else if (varA === "") {
+                return 1;
+            }
+            else if (varB === "") {
+                return -1;
+            }
+            // otherwise, if we're ascending, lowest sorts first
+            else if (ascending) {
+                return varA < varB ? -1 : 1;
+            }
+            // if descending, highest sorts first
+            else { 
+                return varA < varB ? 1 : -1;
+            }
+        
+          };
+    }
+
     joinGame(room) {
         const { endpoint } = this.state
         const socket = io(endpoint)

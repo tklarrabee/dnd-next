@@ -13,12 +13,14 @@ module.exports = (app, io) => {
         
     // }
 
+
+                    
     timerStart = async (countdown, interval, room) => {
         let promise = new Promise((resolve, reject) => {
-            setTimeout( () => {
+            setTimeout(() => {
                 yourTurn(room, countdown)
                 resolve('resolved')
-            } , countdown)
+            }, countdown)
         })
 
         await promise 
@@ -102,6 +104,11 @@ module.exports = (app, io) => {
             // socket.emit('player join', 'PLAYER JOINED ROOM, BIOTCH')
             // socket.emit('game data', )
         });
+
+
+        socket.on('initiative', () => {
+            console.log('put code here')
+        })
 
         socket.on('add character', newChar => {
             console.log(newChar)
