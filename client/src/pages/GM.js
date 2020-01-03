@@ -12,6 +12,8 @@ export default class GM extends Component {
         }
         this.joinGame = this.joinGame.bind(this)
         this.socketEvent = this.joinGame.bind(this)
+        this.addChar = this.addChar.bind(this)
+        this.sortChar = this.sortChar.bind(this)
     }
 
     async componentDidMount() {
@@ -54,7 +56,11 @@ export default class GM extends Component {
                 this.setState({ showNameModal: true })
                 console.log("Name has not been entered.")
             }
+            
+            // this.addChar("Dareth", "Tyler", 2, socket)
+            // this.addChar("Spoot", "John", 1, socket)
         }
+
     }
 
     sortChar = (key, ascending) => {
@@ -87,12 +93,36 @@ export default class GM extends Component {
           };
     }
 
+
     joinGame(room) {
         const { endpoint } = this.state
         const socket = io(endpoint)
 
         socket.emit('player join', room)
 
+    }
+
+
+
+    addChar(name, player, initiative, socket) {
+        const character = {}
+        character.name = name
+        character.player = player
+        character.initiative = initiative
+        character.dead = false
+
+        const charList = this.state.characters
+
+        charList.push(character)
+
+        charList.sort(this.sortChar('Initiative', false))
+
+        this.setState({ characters: charList })
+
+        socket.emit('new character', charList )
+
+        console.log(this.state.characters)
+  
     }
 
     socketEvent(socket) {

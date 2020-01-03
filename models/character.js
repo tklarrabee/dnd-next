@@ -18,6 +18,10 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.BOOLEAN,
             notEmpty: true,
             default: false
+        },
+        char_name: {
+            type: Sequelize.STRING,
+            allowNull: false
         }
     })
     Character.associate = function (models) {
@@ -33,15 +37,6 @@ module.exports = function (sequelize, Sequelize) {
             }
         })
     }
-
-
-    // Character.associate = function (models) {
-    //     Character.hasMany(models.user_alert, {
-    //         foreignKey: {
-    //             allowNull: false
-    //         }
-    //     })
-    // }
 
 
     return Character
